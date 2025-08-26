@@ -1,4 +1,3 @@
-// src/components/UI.tsx
 import React from "react";
 
 export const Card: React.FC<React.PropsWithChildren<{ className?: string }>> = ({
@@ -7,8 +6,8 @@ export const Card: React.FC<React.PropsWithChildren<{ className?: string }>> = (
 }) => (
   <div
     className={[
-      "rounded-3xl border border-white/10 bg-white/10 backdrop-blur",
-      "shadow-[0_8px_30px_rgba(0,0,0,0.08)]",
+      "rounded-2xl bg-white/80 backdrop-blur border border-white/70",
+      "shadow-[0_12px_40px_rgba(15,23,42,0.08)]",
       className || "",
     ].join(" ")}
   >
@@ -24,8 +23,8 @@ export const Chip: React.FC<
     className={[
       "px-3 py-1 rounded-full text-sm transition",
       active
-        ? "bg-emerald-500 text-slate-900"
-        : "bg-white/10 text-slate-200 hover:bg-white/20",
+        ? "bg-blue-600 text-white shadow"
+        : "bg-white/80 backdrop-blur border border-white/70 hover:bg-white",
       className || "",
     ].join(" ")}
   >
