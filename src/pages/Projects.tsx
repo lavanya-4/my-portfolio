@@ -1,5 +1,4 @@
 // src/pages/Projects.tsx
-import React from "react";
 import { Github } from "lucide-react"; // npm i lucide-react
 
 // --- highlight utility (bolds key phrases like your resume) ---

@@ -1,4 +1,3 @@
-import React from "react";
 import { Card } from "../components/UI";
 
 export default function Home() {

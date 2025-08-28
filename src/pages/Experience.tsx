@@ -1,5 +1,4 @@
 // src/pages/Experience.tsx
-import React from "react";
 import { Briefcase } from "lucide-react"; // icon for roles
 
 function highlight(text: string, phrases: string[]) {

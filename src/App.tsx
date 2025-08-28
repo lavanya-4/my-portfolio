@@ -1,12 +1,11 @@
-import React from "react";
 import { NavLink, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
 import About from "./pages/About";
-import Experience from "./pages/Experience";
-import Projects from "./pages/Projects";
-import Education from "./pages/Education";
-import Skills from "./pages/Skills";
 import Contact from "./pages/Contact";
+import Education from "./pages/Education";
+import Experience from "./pages/Experience";
+import Home from "./pages/Home";
+import Projects from "./pages/Projects";
+import Skills from "./pages/Skills";
 
 const nav = [
   { to: "/", label: "Home" },

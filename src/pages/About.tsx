@@ -1,12 +1,11 @@
-import React from "react";
 import {
-  Target,
-  Sparkles,
-  GraduationCap,
-  FolderGit2,
-  Mail,
-  Download,
   Briefcase,
+  Download,
+  FolderGit2,
+  GraduationCap,
+  Mail,
+  Sparkles,
+  Target,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 

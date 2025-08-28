@@ -1,4 +1,3 @@
-import React from "react";
 
 type Props = { src: string; alt: string; caption?: string };
 
