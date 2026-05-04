@@ -18,7 +18,7 @@ export default function Experience() {
   };
 
   return (
-    <section id="experience">
+    <section id="experience" className="pt-10">
       <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-[7fr_3fr] gap-16">
 
         {/* LEFT */}
