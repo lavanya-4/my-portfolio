@@ -1,97 +1,102 @@
-// src/pages/Contact.tsx
-import React, { useState } from "react";
-import { Mail, Github, Linkedin, Copy, Check } from "lucide-react";
-
-const PrettyCard: React.FC<React.PropsWithChildren<{ className?: string }>> = ({ className = "", children }) => (
-  <div className={`relative rounded-2xl bg-gradient-to-tr from-slate-200 via-slate-300 to-slate-100 p-[1px] shadow-xl ${className}`}>
-    <div className="rounded-[16px] bg-white/85 p-8 backdrop-blur-md transition-all duration-200 hover:-translate-y-[2px] hover:shadow-2xl">
-      {children}
-    </div>
-  </div>
-);
+import { motion } from "framer-motion";
+import { FiMail, FiGithub, FiLinkedin, FiCopy } from "react-icons/fi";
+import { useState } from "react";
 
 export default function Contact() {
-  const EMAIL = "lavanyabandla8@gmail.com";         
-  const GITHUB = "https://github.com/lavanya-4";
-  const LINKEDIN = "https://www.linkedin.com/in/lavanya-bandla-95486a11a/";
-
   const [copied, setCopied] = useState(false);
-  const copyEmail = async () => {
-    try {
-      await navigator.clipboard.writeText(EMAIL);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1200);
-    } catch {}
+
+  const email = "lavanyabandia8@gmail.com";
+
+  const copyEmail = () => {
+    navigator.clipboard.writeText(email);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <section className="relative isolate space-y-6 animate-fadeup">
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 -top-24 -z-10 mx-auto h-64 w-[80%] rounded-[40px] bg-gradient-to-r from-indigo-200 via-sky-200 to-fuchsia-200 blur-3xl opacity-60" />
+    <section id="contact" className="pt-20">
+      <div className="max-w-5xl mx-auto px-6">
 
-      <PrettyCard>
-        <div className="text-center">
-          <h2 className="text-3xl font-extrabold tracking-tight">
-            <span className="bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent">
-              Let’s build something together
-            </span>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="bg-white/70 backdrop-blur-md border border-gray-200 rounded-2xl p-10 text-center shadow-md"
+        >
+
+          {/* TITLE */}
+          <h2 className="text-3xl font-semibold text-gray-900">
+            Let’s build something together
           </h2>
-          <p className="mx-auto mt-2 max-w-[60ch] text-[15px] leading-7 text-slate-600">
-            Open to Software Developer / Data / ML roles, freelancing, and collaborations. I usually reply within a day.
+
+          {/* SUBTEXT */}
+          <p className="mt-3 text-gray-600 text-sm max-w-xl mx-auto">
+            Open to Software Developer / Data / ML roles, freelancing, and collaborations.
+            I usually reply within a day.
           </p>
 
-          {/* email chip with copy */}
-          <div className="mx-auto mt-5 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-800 shadow-sm">
-            <Mail className="h-4 w-4 text-indigo-600" />
-            <a className="hover:underline" href={`mailto:${EMAIL}`}>{EMAIL}</a>
+          {/* EMAIL COPY BOX */}
+          <div className="mt-6 flex items-center justify-center gap-2">
+
+            <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full text-sm">
+              <FiMail className="text-orange-500" />
+              {email}
+            </div>
+
             <button
               onClick={copyEmail}
-              className="ml-1 inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 text-[11px] font-medium text-slate-700 hover:bg-slate-100"
-              title="Copy email"
+              className="px-3 py-2 text-xs bg-gray-200 rounded-full hover:bg-gray-300 transition flex items-center gap-1"
             >
-              {copied ? <Check className="h-3.5 w-3.5 text-green-600" /> : <Copy className="h-3.5 w-3.5" />}
-              {copied ? "Copied" : "Copy"}
+              <FiCopy />
+              {copied ? "Copied!" : "Copy"}
             </button>
+
           </div>
 
-          {/* CTA buttons */}
-          <div className="mt-6 grid gap-3 sm:grid-cols-3">
-            {/* Email */}
+          {/* CLICKABLE BUTTONS */}
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+
+            {/* EMAIL */}
             <a
-              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow transition hover:bg-indigo-700 hover:shadow-md"
-              href={`mailto:${EMAIL}`}
+              href={`mailto:${email}`}
+              className="px-6 py-3 rounded-lg bg-orange-500 text-white text-sm font-medium hover:bg-orange-600 transition flex items-center gap-2 hover:scale-105 active:scale-95"
             >
-              <Mail className="h-4 w-4 transition group-hover:scale-110" />
+              <FiMail />
               Email Me
             </a>
 
-            {/* GitHub */}
+            {/* GITHUB */}
             <a
-              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#181717] px-4 py-2.5 text-sm font-semibold text-white shadow transition hover:bg-black hover:shadow-md"
-              href={GITHUB}
+              href="https://github.com/lavanya-4"
               target="_blank"
               rel="noopener noreferrer"
+              className="px-6 py-3 rounded-lg bg-black text-white text-sm font-medium hover:bg-gray-800 transition flex items-center gap-2 hover:scale-105 active:scale-95"
             >
-              <Github className="h-4 w-4 transition group-hover:scale-110" />
+              <FiGithub />
               GitHub
             </a>
 
-            {/* LinkedIn */}
+            {/* LINKEDIN */}
             <a
-              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#0A66C2] px-4 py-2.5 text-sm font-semibold text-white shadow transition hover:bg-[#004182] hover:shadow-md"
-              href={LINKEDIN}
+              href="https://www.linkedin.com/in/lavanya-bandla-95486a11a/"
               target="_blank"
               rel="noopener noreferrer"
+              className="px-6 py-3 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition flex items-center gap-2 hover:scale-105 active:scale-95"
             >
-              <Linkedin className="h-4 w-4 transition group-hover:scale-110" />
+              <FiLinkedin />
               LinkedIn
             </a>
+
           </div>
 
-          <p className="mt-6 text-xs text-slate-500">
-            Prefer Calendly or a quick call? Add a note and I’ll send a slot.
+          {/* FOOTNOTE */}
+          <p className="mt-6 text-xs text-gray-500">
+            Prefer a quick call? Add a note and I’ll respond soon.
           </p>
-        </div>
-      </PrettyCard>
+
+        </motion.div>
+
+      </div>
     </section>
   );
 }

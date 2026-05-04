@@ -1,195 +1,196 @@
-// src/pages/Projects.tsx
-import { Github } from "lucide-react"; // npm i lucide-react
-
-// --- highlight utility (bolds key phrases like your resume) ---
-function highlight(text: string, phrases: string[] = []) {
-  if (!phrases.length) return text;
-  const escaped = phrases.map((p) => p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-  const re = new RegExp(`(${escaped.join("|")})`, "gi");
-  return text.split(re).map((part, i) =>
-    re.test(part) ? (
-      <strong key={i} className="font-semibold text-slate-900">
-        {part}
-      </strong>
-    ) : (
-      <span key={i}>{part}</span>
-    )
-  );
-}
-
-type Bullet = { text: string; highlights?: string[] };
-type Project = {
-  title: string;
-  org: string;
-  period: string;
-  bullets: Bullet[];
-  github?: string;
-  accent?: "slate" | "indigo" | "emerald" | "rose" | "sky";
-};
-
-const PROJECTS: Project[] = [
-  {
-    title: "Software Technologies for Early Detection Screening Camp",
-    org: "Karkinos Healthcare Private Limited",
-    period: "02/2021 – 04/2021",
-    bullets: [
-      {
-        text: "Developed a web-based system with backend APIs and pipelines to capture patient data during early detection camps.",
-        highlights: ["web-based system", "backend APIs", "pipelines"],
-      },
-      {
-        text: "Built dashboards and reporting modules to generate GP consultation reports, serving 200+ patients.",
-        highlights: ["dashboards", "reporting modules", "200+ patients"],
-      },
-      {
-        text: "Applied MVC architecture for modular design and maintainability.",
-        highlights: ["MVC architecture"],
-      },
-    ],
-    github: "https://github.com/yourname/early-detection-platform",
-    accent: "emerald",
-  },
-  {
-    title: "Prediction of Disease Symptoms using Decision Tree Algorithm",
-    org: "San José State University (SJSU)",
-    period: "01/2025 – 05/2025",
-    bullets: [
-      {
-        text: "Engineered an end-to-end pipeline in Python using OOP design for data preprocessing, training, and evaluation.",
-        highlights: ["end-to-end pipeline", "Python", "OOP"],
-      },
-      {
-        text: "Optimized classification system with Decision Tree, achieving >80% accuracy on medical datasets.",
-        highlights: ["Decision Tree", ">80% accuracy"],
-      },
-      {
-        text: "Applied predictive analytics for identifying high-risk users, similar to churn scoring and CLV prediction.",
-        highlights: ["predictive analytics", "high-risk users", "churn scoring", "CLV prediction"],
-      },
-    ],
-    github: "https://github.com/lavanya-4/Prediction-of-disease-symptoms-based-on-decision-tree",
-    accent: "indigo",
-  },
-  {
-    title: "Customer Engagement Prediction (TikTok Data Analysis)",
-    org: "San José State University (SJSU)",
-    period: "01/2025 – 05/2025",
-    bullets: [
-      {
-        text: "Developed a Python pipeline to ingest and preprocess 1,000+ TikTok videos for engagement analysis.",
-        highlights: ["Python pipeline", "1,000+ TikTok videos"],
-      },
-      {
-        text: "Engineered pipeline for regression models on 1,000+ videos, reducing preprocessing time by 20%.",
-        highlights: ["regression models", "reducing preprocessing time by 20%"],
-      },
-      {
-        text: "Created visualizations to present findings, showing that IT and Education content achieved 40% higher engagement across demographics.",
-        highlights: ["visualizations", "40% higher engagement", "IT", "Education"],
-      },
-    ],
-    github: "https://github.com/lavanya-4/Statistical-Analysis-of-Tiktok-Videos-Going-Viral",
-    accent: "sky",
-  },
-  {
-    title: "Online Student Feedback Form – Web Application",
-    org: "JNTUK",
-    period: "01/2019 – 05/2019",
-    bullets: [
-      {
-        text: "Developed a web application using Java, JSP, and JDBC to enable students to provide feedback for tutors and institutions.",
-        highlights: ["web application", "Java", "JSP", "JDBC"],
-      },
-      {
-        text: "Designed and implemented database connectivity with JDBC for secure storage and retrieval of feedback.",
-        highlights: ["database connectivity", "JDBC", "secure storage"],
-      },
-      {
-        text: "Improved feedback collection efficiency by enabling real-time submissions compared to manual paper-based methods.",
-        highlights: ["real-time submissions"],
-      },
-    ],
-    github: "https://github.com/yourname/student-feedback-app",
-    accent: "rose",
-  },
-];
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { FiGithub } from "react-icons/fi";
 
 export default function Projects() {
+  const [filter, setFilter] = useState("All");
+
+  const filters = ["All", "Full Stack", "Frontend", "ML & AI", "Data Analysis"];
+
+  const projects = [
+    {
+      title: "ER Monitron",
+      category: "ML & AI",
+      desc: "AI-driven emergency dispatch system using patient data and traffic optimization.",
+      impact: "Improved decision accuracy with AI-based scoring.",
+      image: "/er_monitron.png",
+      tech: ["Python", "LLM", "NVIDIA"],
+      github: "https://github.com/lavanya-4/ER-Monitron-AI-Agent-for-Emergency-Resource-Orchestration",
+    },
+    {
+      title: "Smart PDF",
+      category: "ML & AI",
+      desc: "LLM-powered assistant for long PDFs using RAG.",
+      impact: "Reduced token usage by 92%.",
+      image: "/smart_pdf.png",
+      tech: ["RAG", "FAISS", "LangChain"],
+      github: "https://github.com/lavanya-4/context-aware-support-llm",
+    },
+    {
+      title: "Smart Home Platform",
+      category: "Full Stack",
+      desc: "IoT monitoring system with real-time alerts.",
+      impact: "Handled 10K+ daily events.",
+      image: "/smart_home.png",
+      tech: ["AWS", "FastAPI", "React"],
+      github: "https://github.com/lavanya-4/smart_home",
+    },
+    {
+      title: "Portfolio Website",
+      category: "Frontend",
+      desc: "Animated portfolio with React + Framer Motion.",
+      impact: "Improved UX and engagement.",
+      image: "/portfolio.png",
+      tech: ["React", "Tailwind"],
+      github: "https://github.com/lavanya-4/my-portfolio",
+    },
+
+    // 🔥 NEW PROJECTS ADDED
+
+    {
+      title: "TikTok Viral Analysis",
+      category: "Data Analysis",
+      desc: "Statistical analysis of TikTok videos to understand factors driving virality.",
+      impact: "Identified key engagement patterns using data analysis.",
+      image: "/tiktok.png",
+      tech: ["Python", "Pandas", "Statistics"],
+      github: "https://github.com/lavanya-4/Statistical-Analysis-of-Tiktok-Videos-Going-Viral",
+    },
+    {
+      title: "Travel Trip Advisor",
+      category: "ML & AI",
+      desc: "Web application for discovering and planning travel trips.",
+      impact: "Improved travel planning experience with curated recommendations.",
+      image: "/travel.png",
+      tech: ["Python", "NLP", "API", "Gradio UI"],
+      github: "https://github.com/lavanya-4/Travel_Trip_Advisor",
+    },
+    {
+      title: "Academic Copilot",
+      category: "Full Stack",
+      desc: "AI-powered assistant for academic support and content generation.",
+      impact: "Enhanced productivity for research and learning workflows.",
+      image: "/academic_copilot.png",
+      tech: ["LLM", "FastAPI", "React"],
+      github: "https://github.com/lavanya-4/academic-copilot",
+    },
+    {
+      title: "Disease Prediction System",
+      category: "Data Analysis",
+      desc: "Machine learning model to predict diseases based on symptoms using decision trees.",
+      impact: "Improved early diagnosis accuracy using predictive modeling.",
+      image: "/disease.png",
+      tech: ["Python", "Decision Tree", "ML"],
+      github: "https://github.com/lavanya-4/Prediction-of-disease-symptoms-based-on-decision-tree",
+    },
+  ];
+
+  const filteredProjects =
+    filter === "All"
+      ? projects
+      : projects.filter((p) => p.category === filter);
+
   return (
-    <section className="space-y-8">
-      {/* Header */}
-      <header className="space-y-1">
-        <h2 className="text-3xl font-extrabold tracking-tight text-slate-900">
-          Projects
-        </h2>
-        <p className="text-[15px] leading-7 text-slate-600">
-        </p>
-      </header>
+    <section id="projects" className="pt-10">
+      <div className="max-w-6xl mx-auto px-6">
 
-      {/* Stack for readability on all screens */}
-      <div className="space-y-6">
-        {PROJECTS.map((p) => {
-          const accentClasses =
-            p.accent === "indigo"
-              ? "bg-indigo-600"
-              : p.accent === "emerald"
-              ? "bg-emerald-600"
-              : p.accent === "rose"
-              ? "bg-rose-600"
-              : p.accent === "sky"
-              ? "bg-sky-600"
-              : "bg-slate-600";
+        {/* TITLE */}
+        <div>
+          <motion.h2
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl font-semibold text-black"
+          >
+            Projects
+          </motion.h2>
 
-          return (
-            <article
-              key={p.title}
-              className="group relative rounded-xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md"
+          <motion.div
+            initial={{ width: 0 }}
+            whileInView={{ width: "140px" }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mt-3 h-[4px] bg-orange-500 rounded-full"
+          />
+        </div>
+
+        {/* FILTERS */}
+        <div className="mt-10 flex flex-wrap gap-6 items-center">
+          {filters.map((f) => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              className={`px-6 py-2 rounded-full text-sm font-medium transition-all
+                ${
+                  filter === f
+                    ? "bg-indigo-600 text-white shadow-md"
+                    : "text-gray-600 hover:text-indigo-600"
+                }`}
             >
-              {/* left accent bar */}
-              <span
-                className={`absolute left-0 top-0 h-full w-1.5 rounded-l-xl ${accentClasses} opacity-90 group-hover:w-2 transition-all`}
-              />
-              <div className="relative p-6 md:p-7 pl-7 md:pl-8">
-                {/* meta row */}
-                <div className="flex items-start justify-between gap-4">
-                  <div className="min-w-0">
-                    <h3 className="text-xl font-bold leading-tight text-slate-900">
-                      {p.title}
-                    </h3>
-                    <p className="mt-1 text-sm italic text-slate-700">
-                      {p.org}
-                    </p>
-                  </div>
-                  <span className="shrink-0 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-slate-700">
-                    {p.period}
-                  </span>
-                </div>
+              {f}
+            </button>
+          ))}
+        </div>
 
-                {/* bullets */}
-                <ul className="mt-4 max-w-[68ch] list-disc space-y-2.5 pl-5 text-[15px] leading-7 text-slate-800">
-                  {p.bullets.map((b, i) => (
-                    <li key={i}>{highlight(b.text, b.highlights)}</li>
-                  ))}
-                </ul>
+        {/* GRID */}
+        <div className="mt-12 grid md:grid-cols-2 gap-12">
 
-                {/* footer */}
-                <div className="mt-5 flex justify-end">
-                  {p.github && (
-                    <a
-                      href={p.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-sm font-medium text-slate-800 shadow-sm transition hover:bg-slate-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-slate-300"
-                    >
-                      <Github className="h-4 w-4" />
-                      GitHub
-                    </a>
-                  )}
-                </div>
+          {filteredProjects.map((p, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.15 }}
+              className="group bg-white/70 backdrop-blur-md rounded-xl p-5 shadow hover:shadow-xl transition"
+            >
+
+              <div className="overflow-hidden rounded-lg relative">
+                <img
+                  src={p.image}
+                  alt={p.title}
+                  className="w-full h-48 object-cover group-hover:scale-105 transition duration-300"
+                />
+
+                <a
+                  href={p.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute top-3 right-3 bg-white/90 backdrop-blur p-2 rounded-full shadow hover:bg-indigo-600 hover:text-white transition"
+                >
+                  <FiGithub size={16} />
+                </a>
               </div>
-            </article>
-          );
-        })}
+
+              <div className="mt-4">
+                <h3 className="text-lg font-semibold text-black group-hover:text-indigo-600 transition">
+                  {p.title}
+                </h3>
+
+                <p className="mt-2 text-sm text-gray-700">
+                  {p.desc}
+                </p>
+
+                <p className="mt-2 text-sm font-medium text-gray-900">
+                  {p.impact}
+                </p>
+
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {p.tech.map((t, idx) => (
+                    <span
+                      key={idx}
+                      className="px-3 py-1 text-xs rounded-full bg-indigo-100 text-indigo-600"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+              </div>
+
+            </motion.div>
+          ))}
+
+        </div>
+
       </div>
     </section>
   );

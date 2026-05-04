@@ -1,77 +1,144 @@
-import { NavLink, Route, Routes } from "react-router-dom";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Education from "./pages/Education";
-import Experience from "./pages/Experience";
+import { useEffect, useState } from "react";
+import {
+  FiHome,
+  FiBriefcase,
+  FiFolder,
+  FiZap,
+  FiBook,
+  FiAward,
+  FiMail,
+} from "react-icons/fi";
+
 import Home from "./pages/Home";
+import Experience from "./pages/Experience";
 import Projects from "./pages/Projects";
 import Skills from "./pages/Skills";
+import Education from "./pages/Education";
+import Certifications from "./pages/Certifications";
+import Contact from "./pages/Contact";
 
-const nav = [
-  { to: "/", label: "Home" },
-  { to: "/about", label: "About" },
-  { to: "/experience", label: "Experience" },
-  { to: "/projects", label: "Projects" },
-  { to: "/education", label: "Education" },
-  { to: "/skills", label: "Skills" },
-  { to: "/contact", label: "Contact" },
+const sections = [
+  { id: "home", label: "Home", icon: <FiHome /> },
+  { id: "experience", label: "Experience", icon: <FiBriefcase /> },
+  { id: "projects", label: "Projects", icon: <FiFolder /> },
+  { id: "skills", label: "Skills", icon: <FiZap /> },
+  { id: "education", label: "Education", icon: <FiBook /> },
+  { id: "certifications", label: "Certifications", icon: <FiAward /> },
+  { id: "contact", label: "Contact", icon: <FiMail /> },
 ];
 
 export default function App() {
+  const [active, setActive] = useState("home");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      let current = "home";
+
+      sections.forEach((s) => {
+        const el = document.getElementById(s.id);
+        if (el) {
+          const top = el.offsetTop;
+          if (window.scrollY >= top - 200) {
+            current = s.id;
+          }
+        }
+      });
+
+      setActive(current);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollTo = (id: string) => {
+    if (id === "home") {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    } else {
+      document.getElementById(id)?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
   return (
-    <div className="min-h-screen text-slate-800 relative">
-      {/* Bolt-style colorful background */}
-      <div className="pointer-events-none fixed inset-0 -z-10">
-        <div className="absolute -top-24 -left-24 h-80 w-80 rounded-full bg-blue-200/60 blur-3xl" />
-        <div className="absolute -top-16 right-0 h-80 w-80 rounded-full bg-fuchsia-200/60 blur-3xl" />
-        <div className="absolute bottom-[-8rem] left-1/2 -translate-x-1/2 h-96 w-[48rem] rounded-full bg-purple-200/70 blur-3xl" />
-        <div className="absolute inset-0 bg-[radial-gradient(1000px_600px_at_10%_0%,#dbeafe_0%,transparent_60%),radial-gradient(900px_500px_at_90%_10%,#f5d0fe_0%,transparent_60%),linear-gradient(180deg,#ffffff,rgba(255,255,255,0.9))]" />
-      </div>
+    <div className="flex">
 
-      {/* Header */}
-      <header className="sticky top-0 z-40 bg-white/70 backdrop-blur border-b border-white/60">
-        <nav className="mx-auto max-w-6xl px-4 sm:px-6 py-4 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-3">
-            <img src="/me.jpg" alt="avatar" className="h-9 w-9 rounded-xl object-cover border border-white/70 shadow" />
-            <span className="font-bold tracking-tight">Lavanya Bandla</span>
-          </a>
-          <div className="flex flex-wrap gap-1">
-            {nav.map((n) => (
-              <NavLink
-                key={n.to}
-                to={n.to}
-                className={({ isActive }) =>
-                  [
-                    "px-3 py-2 rounded-lg text-sm font-medium transition",
-                    isActive
-                      ? "bg-blue-600 text-white shadow-sm"
-                      : "hover:bg-white/70 border border-white/70",
-                  ].join(" ")
-                }
-              >
-                {n.label}
-              </NavLink>
-            ))}
-          </div>
+      {/* SIDEBAR */}
+      <aside className="fixed left-0 top-0 h-screen w-20 bg-white/70 backdrop-blur-md border-r border-gray-200 flex flex-col justify-between items-center py-10">
+
+        {/* NAV ICONS */}
+        <nav className="flex flex-col gap-8 text-xl">
+
+          {sections.map((s) => (
+            <button
+              key={s.id}
+              onClick={() => scrollTo(s.id)}
+              className="relative group"
+            >
+              {/* ICON */}
+              <span
+  className={`transition text-xl hover:scale-110 ${
+    active === s.id
+      ? "scale-110"
+      : "text-gray-400"
+  } ${
+    s.id === "home"
+      ? "text-orange-500"
+      : s.id === "experience"
+      ? "text-blue-500"
+      : s.id === "projects"
+      ? "text-purple-500"
+      : s.id === "skills"
+      ? "text-green-500"
+      : s.id === "education"
+      ? "text-pink-500"
+      : s.id === "certifications"
+      ? "text-yellow-500"
+      : "text-red-500"
+  }`}
+>
+  {s.icon}
+</span>
+
+              {/* TOOLTIP */}
+              <span className="absolute left-12 top-1/2 -translate-y-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition whitespace-nowrap">
+                {s.label}
+              </span>
+            </button>
+          ))}
+
         </nav>
-      </header>
 
-      {/* Pages */}
-      <main className="mx-auto max-w-6xl px-4 sm:px-6 py-10 space-y-16">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/experience" element={<Experience />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/education" element={<Education />} />
-          <Route path="/skills" element={<Skills />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
+        {/* FOOTER */}
+        <p className="text-xs text-gray-400 rotate-[-90deg]">
+          © 2026
+        </p>
 
-        <footer className="pb-8 text-sm text-slate-600">
-          © {new Date().getFullYear()} Lavanya Bandla
-        </footer>
+      </aside>
+
+      {/* MAIN CONTENT */}
+      <main className="ml-20 w-[calc(100%-5rem)] px-8 py-16 space-y-32">
+
+        {/* CENTERED CONTENT WRAPPER */}
+        <div className="max-w-6xl mx-auto w-full">
+
+          <Home />
+          <Experience />
+          <Projects />
+          <Skills />
+          <Education />
+          <Certifications />
+          <Contact />
+
+        </div>
+
       </main>
+
     </div>
   );
 }

@@ -1,108 +1,235 @@
-import { Card } from "../components/UI";
+import { motion, useMotionValue, useTransform } from "framer-motion";
+import {
+  FiGithub,
+  FiLinkedin,
+  FiMail,
+  FiZap,
+  FiTarget,
+  FiActivity,
+} from "react-icons/fi";
+import { useRef } from "react";
 
 export default function Home() {
+  const cardRef = useRef<HTMLDivElement | null>(null);
+
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const rotateX = useTransform(y, [-120, 120], [8, -8]);
+  const rotateY = useTransform(x, [-120, 120], [-8, 8]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    x.set(e.clientX - (rect.left + rect.width / 2));
+    y.set(e.clientY - (rect.top + rect.height / 2));
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
   return (
-    <section className="relative isolate animate-fadeup">
-      {/* background glow */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 -top-24 -z-10 mx-auto h-72 w-[82%] rounded-[48px] bg-gradient-to-r from-indigo-200 via-sky-200 to-fuchsia-200 blur-3xl opacity-60"
-      />
+    <section
+      id="home"
+      className="relative min-h-[90vh] flex items-start pt-20 overflow-hidden bg-gradient-to-br from-[#f8fafc] via-[#f1f5f9] to-[#eef2ff]"
+    >
+      {/* Background */}
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_30%_20%,rgba(0,0,0,0.03),transparent_40%)]"></div> 
 
-      <div className="grid items-center gap-8 lg:grid-cols-[1.2fr,1fr]">
-        {/* Left: Text */}
-        <div>
-          {/* tiny availability badge */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-xs text-slate-700 backdrop-blur shadow-sm">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
-            Open to Software Engineer/ ML/AI roles
-          </div>
+      <div className="max-w-6xl mx-auto px-6 w-full">
 
-          <h1 className="mt-4 text-3xl font-extrabold tracking-tight md:text-5xl">
-            <span className="bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent">
-              Building reliable software with AI, data & clean APIs.
-            </span>
-          </h1>
+        <div className="grid md:grid-cols-[2fr_1fr] gap-12 items-start">
 
-          <p className="mt-4 max-w-prose text-[17px] leading-8 text-slate-700">
-            3+ years in building web applications, backends, data pipelines, dashboards, and applied ML.
-            Strong foundations in DSA and software architecture (MVP/MVC). Currently
-            pursuing an M.S. in Artificial Intelligence at SJSU.
-          </p>
+          {/* LEFT */}
+          <motion.div
+            initial={{ opacity: 0, x: -100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ type: "spring", stiffness: 60 }}
+          >
 
-          {/* CTAs */}
-          <div className="mt-6 flex flex-wrap gap-3">
-            <a
-              href="/projects"
-              className="rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow transition hover:-translate-y-[1px] hover:bg-indigo-700 hover:shadow-md"
+            <h2 className="text-3xl font-semibold text-gray-900">
+              About Me
+            </h2>
+
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: 80 }}
+              transition={{ duration: 0.6 }}
+              className="mt-2 h-[3px] bg-orange-500 rounded-full"
+            />
+
+            {/* ABOUT CARD */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, type: "spring" }}
+              className="mt-5 bg-white rounded-xl shadow-sm p-8 border border-gray-100"
             >
-              View Projects →
-            </a>
-            <a
-              href="/experience"
-              className="rounded-xl border border-slate-200 bg-white/80 px-4 py-2.5 text-sm font-semibold text-slate-800 shadow-sm backdrop-blur transition hover:-translate-y-[1px] hover:bg-white hover:shadow-md"
-            >
-              Experience
-            </a>
-            <a
-              href="/contact"
-              className="rounded-xl border border-slate-200 bg-white/80 px-4 py-2.5 text-sm font-semibold text-slate-800 shadow-sm backdrop-blur transition hover:-translate-y-[1px] hover:bg-white hover:shadow-md"
-            >
-              Contact
-            </a>
-          </div>
 
-          {/* quick stats */}
-          <div className="mt-8 grid max-w-lg grid-cols-3 gap-3 text-center text-sm">
-            <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
-              <div className="text-2xl font-bold text-slate-900">5+</div>
-              <div className="text-slate-600">Stakeholders</div>
-            </div>
-            <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
-              <div className="text-2xl font-bold text-slate-900">25%</div>
-              <div className="text-slate-600">Accuracy uplift</div>
-            </div>
-            <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
-              <div className="text-2xl font-bold text-slate-900">30%</div>
-              <div className="text-slate-600">Faster releases</div>
-            </div>
-          </div>
-        </div>
+              <p className="text-[15px] leading-[1.7] text-gray-700">
+                Hi, I’m Lavanya.
+              </p>
 
-        {/* Right: Photo card */}
-        <Card className="overflow-hidden p-0 shadow-xl">
-          <div className="relative">
-            <div className="relative aspect-[4/3] w-full overflow-hidden">
-              <img
-                src="/me.jpg"               // you already added this
-                alt="Lavanya Bandla"
-                className="h-full w-full object-cover transition will-change-transform group-hover:kenburns"
-              />
-              {/* shine sweep */}
-              <div className="pointer-events-none absolute inset-0 translate-x-[-120%] bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shine" />
-              {/* bottom gradient for legibility */}
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white to-transparent" />
-            </div>
+              <p className="mt-3 text-[15px] leading-[1.7] text-gray-700">
+                I enjoy building full-stack web applications using React, JavaScript, and Python, with a focus on integrating AI and data-driven features into real-world products.
+              </p>
 
-            {/* info strip over white glass */}
-            <div className="grid gap-2 bg-white/85 px-5 py-4 backdrop-blur">
-              <div className="text-xs font-medium text-slate-600">Based in</div>
-              <div className="flex items-center justify-between">
-                <div className="text-sm font-semibold text-slate-900">San José, CA</div>
-                <div className="flex flex-wrap gap-2 text-[11px]">
-                  {["Python", "Flask", "React", "GCP", "Postgres"].map((t) => (
-                    <span
-                      key={t}
-                      className="rounded-full border border-slate-200 bg-white px-2 py-0.5 text-slate-700 shadow-sm"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
+              <p className="mt-4 text-[15px] font-medium text-gray-900">
+                What I am into:
+              </p>
+
+              <ul className="mt-2 space-y-1 text-[15px] leading-[1.7] text-gray-700">
+                <li>• Frontend development with React and modern JavaScript</li>
+                <li>• Building REST APIs and full-stack applications</li>
+                <li>• Integrating AI features into applications (LLMs, automation, intelligent workflows)</li>
+                <li>• Developing data dashboards and working with real-world data</li>
+                <li>• Writing clean, maintainable, and scalable code</li>
+              </ul>
+
+              <p className="mt-4 text-[15px] leading-[1.7] text-gray-700">
+                I’ve built applications that combine user-friendly interfaces with backend systems and AI capabilities, including dashboards and intelligent assistants. I enjoy using AI to make applications smarter, more efficient, and more useful for end users.
+              </p>
+
+              <div className="mt-5 flex flex-wrap gap-2">
+                {["Python","Flask","React","GCP","Postgres","MongoDB","Metabase","Power BI"].map((t) => (
+                  <motion.span
+                    key={t}
+                    whileHover={{ scale: 1.1 }}
+                    className="px-3 py-1 text-xs bg-gray-100 rounded-full"
+                  >
+                    {t}
+                  </motion.span>
+                ))}
               </div>
-            </div>
-          </div>
-        </Card>
+
+            </motion.div>
+
+            {/* CARDS */}
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={{
+                visible: {
+                  transition: { staggerChildren: 0.15 },
+                },
+              }}
+              className="mt-6 grid grid-cols-3 gap-4"
+            >
+
+              {[
+                {
+                  title: "What I do",
+                  text: "Build full-stack web apps, APIs, and AI-powered agents, dashboards.",
+                  icon: FiZap,
+                  color: "text-orange-500",
+                },
+                {
+                  title: "Focus",
+                  text: "Frontend + backend integration with AI-driven features.",
+                  icon: FiTarget,
+                  color: "text-blue-500",
+                },
+                {
+                  title: "Now",
+                  text: "M.S. AI @ SJSU • Open to Software / Web / AI/ML / Data roles.",
+                  icon: FiActivity,
+                  color: "text-green-500",
+                },
+              ].map((card, i) => {
+                const Icon = card.icon;
+
+                return (
+                  <motion.div
+                    key={i}
+                    variants={{
+                      hidden: { opacity: 0, y: 30 },
+                      visible: { opacity: 1, y: 0 },
+                    }}
+                    whileHover={{ y: -8, scale: 1.06 }}
+                    transition={{ type: "spring", stiffness: 200 }}
+                    className="bg-white rounded-xl shadow-sm p-5 border border-gray-100"
+                  >
+                    <Icon className={`${card.color} text-lg`} />
+
+                    <h3 className="text-[15px] font-semibold text-gray-900 mt-2">
+                      {card.title}
+                    </h3>
+
+                    <p className="text-sm text-gray-600 mt-2">
+                      {card.text}
+                    </p>
+                  </motion.div>
+                );
+              })}
+
+            </motion.div>
+
+          </motion.div>
+
+          {/* RIGHT */}
+          <motion.div
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ type: "spring", stiffness: 60 }}
+            className="flex justify-end"
+          >
+
+            <motion.div
+              ref={cardRef}
+              style={{ rotateX, rotateY }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              whileHover={{ y: -10, scale: 1.02 }}
+              transition={{ type: "spring" }}
+              className="bg-white rounded-xl shadow-md p-5 text-center w-[320px] border border-gray-100"
+            >
+
+              <motion.img
+                src="/me.png"
+                whileHover={{ scale: 1.05 }}
+                className="w-full h-56 object-cover rounded-lg"
+              />
+
+              <h2 className="mt-4 text-lg font-semibold text-gray-900">
+                Lavanya Bandla
+              </h2>
+
+              <p className="text-sm text-gray-500">
+                Software Engineer, San Jose, CA
+              </p>
+
+              <motion.a
+                href="https://drive.google.com/file/d/17ms8ao52wD2GEK96Lua3EshfSoor1gp2/view?usp=sharing"
+                target="_blank"
+                whileTap={{ scale: 0.95 }}
+                className="mt-4 inline-block px-4 py-2 text-sm bg-orange-500 text-white rounded-md hover:bg-orange-600 transition"
+              >
+                View Resume
+              </motion.a>
+
+              <div className="mt-4 flex justify-center gap-5">
+
+                <motion.a href="https://github.com/lavanya-4" whileHover={{ scale: 1.3 }} className="text-gray-600 hover:text-black">
+                  <FiGithub />
+                </motion.a>
+
+                <motion.a href="https://www.linkedin.com/in/lavanya-bandla-95486a11a/" whileHover={{ scale: 1.3 }} className="text-blue-600">
+                  <FiLinkedin />
+                </motion.a>
+
+                <motion.a href="mailto:lavanyabandla8@gmail.com" whileHover={{ scale: 1.3 }} className="text-red-500">
+                  <FiMail />
+                </motion.a>
+
+              </div>
+
+            </motion.div>
+
+          </motion.div>
+
+        </div>
       </div>
     </section>
   );

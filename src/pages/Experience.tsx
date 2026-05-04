@@ -1,202 +1,226 @@
-// src/pages/Experience.tsx
-import { Briefcase } from "lucide-react"; // icon for roles
-
-function highlight(text: string, phrases: string[]) {
-  if (!phrases.length) return text;
-  const escaped = phrases.map((p) => p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-  const re = new RegExp(`(${escaped.join("|")})`, "gi");
-  return text.split(re).map((part, i) =>
-    re.test(part) ? (
-      <strong key={i} className="font-semibold text-slate-900">
-        {part}
-      </strong>
-    ) : (
-      <span key={i}>{part}</span>
-    )
-  );
-}
-
-type Job = {
-  company: string;
-  role: string;
-  period: string;
-  location: string;
-  bullets: string[];
-  highlights: string[];
-  badge?: string;
-  accent?: "indigo" | "emerald" | "rose";
-};
-
-const JOBS: Job[] = [
-  {
-    company: "Karkinos Healthcare Private Limited",
-    role: "Software Developer",
-    period: "05/2021 – 01/2024",
-    location: "Bangalore, India",
-    badge: "Full-time",
-    bullets: [
-      "Developed full-stack applications in Python (OOP, classes, modular design) using Flask and ReactJS.",
-      "Applied the MVC (Model-View-Controller) architecture to ensure modular, maintainable, and testable code.",
-      "Built and maintained scalable REST APIs and backend services integrated with SQL/NoSQL databases (Postgres, MySQL, MongoDB).",
-      "Designed and deployed end-to-end data pipelines ensuring smooth data flow from ingestion to storage to visualization.",
-      "Utilized Google Cloud Platform (GCP) to store large healthcare datasets and access them through Cloud Storage buckets, enabling secure and scalable data handling.",
-      "Built interactive dashboards in Metabase and PowerBI to deliver real-time insights for 5+ healthcare stakeholders.",
-      "Integrated ML models into production systems to extract insights from unstructured notes, improving analytics accuracy by 25%.",
-      "Collaborated in Agile teams to deliver production-ready features, reducing release cycle time by 30%."
-    ],
-    highlights: [
-      "full-stack applications",
-      "MVC",
-      "scalable REST APIs",
-      "backend services",
-      "SQL/NoSQL",
-      "end-to-end data pipelines",
-      "Google Cloud Platform",
-      "GCP",
-      "Cloud Storage",
-      "interactive dashboards",
-      "PowerBI",
-      "Metabase",
-      "ML models",
-      "unstructured notes",
-      "accuracy by 25%",
-      "Agile",
-      "release cycle time by 30%"
-    ],
-    accent: "indigo",
-  },
-  {
-    company: "Karkinos Healthcare Private Limited",
-    role: "Technology Intern",
-    period: "11/2020 – 04/2021",
-    location: "Bangalore, India",
-    badge: "Internship",
-    bullets: [
-      "Contributed to the early development of healthcare applications, writing clean, object-oriented Python code.",
-      "Assisted in building API endpoints and database connections for efficient data flow.",
-      "Supported the team in debugging and testing pipelines while gaining hands-on Agile experience.",
-      "Helped design initial data analysis dashboards to track patient records and healthcare metrics."
-    ],
-    highlights: [
-      "object-oriented Python",
-      "API endpoints",
-      "database connections",
-      "debugging",
-      "testing pipelines",
-      "Agile",
-      "data analysis dashboards",
-      "healthcare metrics"
-    ],
-    accent: "emerald",
-  },
-  {
-    company: "Vizag Steel Plant",
-    role: "Intern — ERP Implementation",
-    period: "06/2018 – 08/2018",
-    location: "Vizag, India",
-    badge: "Internship",
-    bullets: [
-      "Collaborated in Agile teams to deliver robust, production-ready features across ERP and analytics platforms."
-    ],
-    highlights: ["Agile", "ERP", "analytics platforms", "production-ready"],
-    accent: "rose",
-  }
-];
-
-// accent maps
-const accentMap = {
-  indigo: "from-indigo-100 to-indigo-50 border-indigo-200",
-  emerald: "from-emerald-100 to-emerald-50 border-emerald-200",
-  rose: "from-rose-100 to-rose-50 border-rose-200",
-};
-
-const dotMap = {
-  indigo: "bg-indigo-600",
-  emerald: "bg-emerald-600",
-  rose: "bg-rose-600",
-};
+import { motion } from "framer-motion";
+import { FiArrowUpRight } from "react-icons/fi";
 
 export default function Experience() {
+
+  const container = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
-    <section className="relative mx-auto max-w-5xl px-4 py-10">
-      {/* Section heading */}
-      <header className="mb-10">
-        <h2 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent">
-          Professional Experience
-        </h2>
-        <div className="mt-2 h-1 w-32 rounded-full bg-gradient-to-r from-indigo-500 to-emerald-400" />
-      </header>
+    <section id="experience">
+      <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-[7fr_3fr] gap-16">
 
-      {/* Timeline line */}
-      <div className="relative">
-        <div aria-hidden className="absolute left-5 top-0 h-full w-px bg-gradient-to-b from-indigo-200 via-slate-200 to-emerald-200 md:left-1/2" />
+        {/* LEFT */}
+        <div>
 
-        <div className="space-y-12">
-          {JOBS.map((job, idx) => (
-            <div key={idx} className="relative md:grid md:grid-cols-2 md:gap-10">
-              {/* timeline dot */}
-              <div
-                aria-hidden
-                className={`absolute left-[14px] top-5 h-4 w-4 rounded-full border-4 border-white shadow ${dotMap[job.accent || "indigo"]} md:left-[calc(50%-8px)] animate-pulse`}
-              />
+          <motion.h2
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-4xl font-semibold text-black"
+          >
+            Experience
+          </motion.h2>
 
-              {/* Card column (alternate sides on md+) */}
-              <div
-                className={`md:col-start-${
-                  idx % 2 === 0 ? "1" : "2"
-                } md:pr-6`}
-              >
-                <div
-                  className={`relative rounded-xl border bg-gradient-to-br ${accentMap[job.accent || "indigo"]} shadow-md hover:shadow-xl transition`}
-                >
-                  <div className="p-6">
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <div className="text-lg font-semibold">
-                        <span className="inline-flex items-center gap-2">
-                          <Briefcase className="h-5 w-5 text-slate-600" />
-                          <span className="bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
-                            {job.role}
-                          </span>
-                        </span>
-                        <span className="italic text-slate-700">
-                          {" "}
-                          · {job.company}
-                        </span>
-                      </div>
-                      <div className="text-xs font-medium text-slate-600 bg-white/70 px-2 py-1 rounded">
-                        {job.period}
-                      </div>
-                    </div>
-                    <div className="mt-1 text-xs text-slate-500">{job.location}</div>
-                    {job.badge && (
-                      <div className="mt-2 inline-block rounded-full border border-slate-300 bg-white px-2.5 py-0.5 text-xs font-medium text-slate-700 shadow-sm">
-                        {job.badge}
-                      </div>
-                    )}
+          <motion.div
+            initial={{ width: 0 }}
+            whileInView={{ width: "140px" }}
+            transition={{ duration: 0.5 }}
+            className="mt-3 h-[4px] bg-orange-500 rounded-full"
+          />
 
-                    <ul className="mt-4 list-disc space-y-2 pl-5 text-[0.95rem] leading-relaxed text-slate-800">
-                      {job.bullets.map((b, i) => (
-                        <li
-                          key={i}
-                          className="transition hover:text-slate-900 hover:translate-x-1"
-                        >
-                          {highlight(b, job.highlights)}
-                        </li>
-                      ))}
+          {/* STAGGER */}
+          <motion.div
+            variants={container}
+            initial="hidden"
+            whileInView="visible"
+            className="mt-12 space-y-14"
+          >
+
+            {/* SJSU */}
+            <motion.div variants={item} className="flex gap-4">
+              <img src="/sjsu_logo.png" className="w-12 h-12 rounded-lg bg-white border shadow-sm" />
+
+              <div className="flex-1">
+                <div className="flex justify-between items-start">
+
+                  <h3 className="text-lg font-medium text-black flex items-center gap-1">
+                    Graduate Teaching Assistant
+                    <span className="text-gray-400">|</span>
+                    San Jose State University
+
+                    <motion.a
+                      href="https://www.sjsu.edu"
+                      target="_blank"
+                      whileHover={{ scale: 1.2 }}
+                      className="ml-1 text-orange-500"
+                    >
+                      <FiArrowUpRight size={16} />
+                    </motion.a>
+                  </h3>
+
+                  <span className="text-sm text-gray-500">
+                    03/2026 – Present | San Jose, CA
+                  </span>
+                </div>
+
+                <div className="mt-3 h-[1px] bg-gray-300" />
+
+                {/* FULL TEXT (UNCHANGED) */}
+                <div className="mt-4 space-y-4 text-sm text-gray-600">
+
+                  <div>
+                    <p className="font-medium text-indigo-600">
+                      AI Threat Intelligence
+                    </p>
+
+                    <ul className="mt-2 list-disc pl-5 space-y-2">
+                      <li>Analyzed vulnerabilities in machine learning systems (adversarial attacks, data poisoning, model extraction) as part of AI threat intelligence instruction</li>
+                      <li>Developed <span className="font-semibold">hands-on code</span> examples and agentic AI workflows using <span className="font-semibold">Copilot, Cursor, Claude, Gemini</span> to demonstrate AI security concepts, generate code, debug issues, and assist students in building projects more efficiently</li>
+                      <li>Mentored <span className="font-semibold">25+</span> graduate students on AI security, threat modeling, and risk mitigation through case studies and discussionsg</li>
                     </ul>
                   </div>
+
+                  <div>
+                    <p className="font-medium text-indigo-600">
+                      Global Business
+                    </p>
+
+                    <ul className="mt-2 list-disc pl-5 space-y-2">
+                      <li>Tutored 60+ students on global business concepts including international markets, strategy, and economic policy, supporting them through assignments, case studies, and analytical frameworks to understand real-world business environments</li>
+                    </ul>
+                  </div>
+
                 </div>
               </div>
+            </motion.div>
 
-              {/* spacer */}
-              <div
-                className={`hidden md:block md:col-start-${
-                  idx % 2 === 0 ? "2" : "1"
-                }`}
-              />
-            </div>
-          ))}
+            {/* SOFTWARE DEV */}
+            <motion.div variants={item} className="flex gap-4">
+              <img src="/karkinos_logo.png" className="w-12 h-12 rounded-lg bg-white border shadow-sm" />
+
+              <div className="flex-1">
+
+                <div className="flex justify-between items-start">
+
+                  <h3 className="text-lg font-medium text-black flex items-center gap-1">
+                    Software Developer
+                    <span className="text-gray-400">|</span>
+                    Karkinos Healthcare
+
+                    <motion.a href="https://www.karkinos.in/" target="_blank" whileHover={{ scale: 1.2 }} className="ml-1 text-orange-500">
+                      <FiArrowUpRight size={16} />
+                    </motion.a>
+                  </h3>
+
+                  <span className="text-sm text-gray-500">
+                    05/2021 – 12/2024 | Bangalore
+                  </span>
+
+                </div>
+
+                <div className="mt-3 h-[1px] bg-gray-300" />
+
+                <ul className="mt-4 text-sm text-gray-600 list-disc pl-5 space-y-2">
+
+                  <li>Developed and maintained <span className="font-semibold">scalable microservices using Java, Spring Boot, JPA on Google Cloud</span> for healthcare data processing</li>
+                  <li>Spearheaded <span className="font-semibold">test automation initiative</span> using JUnit, TestNG, Selenium, improving test coverage and reducing testing time by <span className="font-semibold">~30%</span></li>
+                  <li>Optimized <span className="font-semibold">PostgreSQL database performance</span> by implementing <span className="font-semibold">Redis caching</span>, reducing average response time from <span className="font-semibold">2 seconds to 500 milliseconds</span> and supporting <span className="font-semibold">3× user growth</span></li>
+                  <li>Built and orchestrated <span className="font-semibold">15+ production data pipelines</span> using Python and Apache Airflow, integrating <span className="font-semibold">machine learning models</span> for automated analytics and workflows using Metabase, PowerBI, Tableau</li>
+                  <li>Developed <span className="font-semibold">REST APIs</span> using Python (Flask, FastAPI) with PostgreSQL, MongoDB, and Oracle DB, improving <span className="font-semibold">latency by 40%</span> and maintaining <span className="font-semibold">99.9% availability</span></li>
+                  <li>Led <span className="font-semibold">end-to-end production engineering</span>, including logging, monitoring, database optimization, and CI/CD pipelines using Jenkins and Docker, reducing <span className="font-semibold">release cycles by 45%</span> and <span className="font-semibold">incident resolution time by 20%</span>, while <span className="font-semibold">mentoring 3 new hires and 8 interns</span> and contributing to team growth from <span className="font-semibold">3 to 25 engineers</span></li>
+
+                </ul>
+              </div>
+            </motion.div>
+
+            {/* INTERN */}
+            <motion.div variants={item} className="flex gap-4">
+              <img src="/karkinos_logo.png" className="w-12 h-12 rounded-lg bg-white border shadow-sm" />
+
+              <div className="flex-1">
+
+                <div className="flex justify-between items-start">
+
+                  <h3 className="text-lg font-medium text-black flex items-center gap-1">
+                    AI Technology Intern
+                    <span className="text-gray-400">|</span>
+                    Karkinos Healthcare
+                    <motion.a href="https://www.karkinos.in/" target="_blank" whileHover={{ scale: 1.2 }} className="ml-1 text-orange-500">
+                      <FiArrowUpRight size={16} />
+                    </motion.a>
+                  </h3>
+
+                  <span className="text-sm text-gray-500">
+                    11/2020 – 04/2021 | Bangalore
+                  </span>
+
+                </div>
+
+                <div className="mt-3 h-[1px] bg-gray-300" />
+
+                <ul className="mt-4 text-sm text-gray-600 list-disc pl-5 space-y-2">
+
+                  <li>Developed <span className="font-semibold">openEHR-aligned healthcare data systems</span> and a <span className="font-semibold">full-stack SaaS platform (Spring + React)</span>, leveraging Firebase and EHRbase (MongoDB) for <span className="font-semibold">scalable storage and real-time data access</span>, supporting <span className="font-semibold">10,000+ daily API requests</span> with <span className="font-semibold">99.9% availability</span></li>
+
+                  <li>Built <span className="font-semibold">RESTful APIs and data pipelines</span> using Python (Flask) for <span className="font-semibold">data processing, validation, and integration with machine learning workflows</span>, including <span className="font-semibold">data preprocessing and feature preparation</span></li>
+
+                  <li>Collaborated with <span className="font-semibold">cross-functional teams</span> on debugging, testing, and improving <span className="font-semibold">system reliability in production environments</span></li>
+
+                </ul>
+              </div>
+            </motion.div>
+
+          </motion.div>
         </div>
+
+        {/* RIGHT */}
+        <motion.div initial={{ opacity: 0, x: 60 }} whileInView={{ opacity: 1, x: 0 }}>
+
+          <h2 className="text-2xl font-semibold text-black">
+            Achievements
+          </h2>
+
+          <motion.div variants={container} initial="hidden" whileInView="visible"
+            className="mt-6 border-l-2 border-blue-500 pl-6 space-y-5 text-sm text-gray-700">
+
+            <motion.p variants={item}><strong>2026</strong> | Selected for Qualcomm and Google LiteRT Hackathon</motion.p>
+            <motion.p variants={item}><strong>2025</strong> | Awarded Star Project at NVIDIA Hackathon</motion.p>
+            <motion.p variants={item}><strong>2023</strong> | Received Sprint Star award for successfully deploying 15+ production data pipelines using Python and Apache Airflow</motion.p>
+            <motion.p variants={item}><strong>2022</strong> | 4+ LinkedIn badges Earned for proficiency </motion.p>
+            <motion.p variants={item}><strong>2021</strong> | Placed in top 1% nationally(India) in TCS Digital Cadre coding challenge among over 150,000 participants.</motion.p>
+
+            <motion.div variants={item}>
+              <p>
+                <strong>2020</strong> | Published research paper:{" "}
+                <a
+                  href="https://www.researchgate.net/publication/344026423_Twitter_Sentimental_Analysis_using_Hadoop_Ecosystem"
+                  target="_blank"
+                  className="text-indigo-600 font-medium hover:underline inline-flex items-center gap-1"
+                >
+                  “Twitter Sentiment Analysis using Hadoop Ecosystem”
+                  <FiArrowUpRight size={14} />
+                </a>
+              </p>
+              <span className="text-gray-500">
+                Lavanya Bandla, Rajasekaran Rajkumar, Jolly Masih
+              </span>
+            </motion.div>
+
+          </motion.div>
+        </motion.div>
+
       </div>
     </section>
   );
